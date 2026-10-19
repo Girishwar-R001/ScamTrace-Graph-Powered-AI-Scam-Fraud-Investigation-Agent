@@ -25,37 +25,37 @@ Most conventional scam detection tools classify a phone number, URL, message, or
 
 ```mermaid
 graph TD
-    User([Investigator / User]) <-->|Browser UI| Frontend[React + Vite + SVG Force Graph]
-    Frontend <-->|REST API| Backend[FastAPI Backend Server]
+    User(["Investigator / User"]) <-->|Browser UI| Frontend["React + Vite + SVG Force Graph"]
+    Frontend <-->|REST API| Backend["FastAPI Backend Server"]
     
-    subgraph Agentic Orchestration [LangGraph Agent Core]
-        Backend --> LangGraph[LangGraph State Machine]
-        LangGraph <--> LLM[Google Gemini 3.8 Flash]
-        LangGraph --> Tools[Graph Tool Dispatcher]
+    subgraph Agentic_Orchestration ["LangGraph Agent Core"]
+        Backend --> LangGraph["LangGraph State Machine"]
+        LangGraph <--> LLM["Google Gemini 3.8 Flash"]
+        LangGraph --> Tools["Graph Tool Dispatcher"]
     end
 
-    subgraph FalkorDB Tools [FalkorDB Investigation Tools]
-        Tools --> T1[search_entity]
-        Tools --> T2[inspect_graph_schema]
-        Tools --> T3[trace_connections]
-        Tools --> T4[get_evidence]
-        Tools --> T5[create_investigation_case]
+    subgraph FalkorDB_Tools ["FalkorDB Investigation Tools"]
+        Tools --> T1["search_entity"]
+        Tools --> T2["inspect_graph_schema"]
+        Tools --> T3["trace_connections"]
+        Tools --> T4["get_evidence"]
+        Tools --> T5["create_investigation_case"]
     end
 
-    subgraph Data Layer [FalkorDB Graph Database]
-        T1 & T2 & T3 & T4 <-->|Cypher Queries| FalkorDB[(FalkorDB Graph)]
-        FalkorDB --- Nodes[Phone | Domain | Account | ScamCampaign | Report | Evidence]
-        FalkorDB --- Rels[REPORTED_IN | ASSOCIATED_WITH | SHARES_DOMAIN | LINKED_TO_CAMPAIGN | SUPPORTED_BY]
+    subgraph Data_Layer ["FalkorDB Graph Database"]
+        T1 & T2 & T3 & T4 <-->|Cypher Queries| FalkorDB[("FalkorDB Graph")]
+        FalkorDB --- Nodes["Phone | Domain | Account | ScamCampaign | Report | Evidence"]
+        FalkorDB --- Rels["REPORTED_IN | ASSOCIATED_WITH | SHARES_DOMAIN | LINKED_TO_CAMPAIGN | SUPPORTED_BY"]
     end
 
-    subgraph MCP Layer [Model Context Protocol]
-        MCPServer[FalkorDB MCP Server] <-->|JSON-RPC 2.0| ExtHosts[External MCP Hosts / IDEs]
+    subgraph MCP_Layer ["Model Context Protocol"]
+        MCPServer["FalkorDB MCP Server"] <-->|JSON-RPC 2.0| ExtHosts["External MCP Hosts / IDEs"]
         MCPServer <--> FalkorDB
     end
 
-    LangGraph --> ReportGen[Explainable Report Generator]
-    ReportGen --> HumanLoop{Human-in-the-Loop Confirmation}
-    HumanLoop -->|Approved| LocalAction[Committed to Case Registry]
+    LangGraph --> ReportGen["Explainable Report Generator"]
+    ReportGen --> HumanLoop{"Human-in-the-Loop Confirmation"}
+    HumanLoop -->|Approved| LocalAction["Committed to Case Registry"]
 ```
 
 ---
